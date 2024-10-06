@@ -5,18 +5,19 @@ fn main() {
     print!("What number in the Fibonacci sequence do you want to see? ");
     io::stdout().flush().expect("Failed to flush stdout");
     let mut wanted = String::new();
+
     io::stdin()
         .read_line(&mut wanted)
         .expect("Failed to read line");
     let wanted = wanted.trim();
-    let wanted: u32 = match wanted.parse() {
-        Ok(num) => num,
-        Err(_) => {
-            println!("You entered '{wanted}'. Try again with a number.");
-            std::process::exit(1);
-        }
+    let wanted: u32 = if let Ok(num) = wanted.parse() {
+        num
+    } else {
+        println!("You entered '{wanted}'. Try again with a number.");
+        std::process::exit(1);
     };
-    show_fib_for(wanted)
+
+    show_fib_for(wanted);
 }
 
 fn show_fib_for(wanted: u32) {
